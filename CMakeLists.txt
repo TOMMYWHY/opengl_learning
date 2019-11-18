@@ -18,13 +18,24 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 
 # 执行编译命令
 # 这个glad.c在第2步中说过要拉到项目中，注意路径
-set(SOURCE_FILES "src/glad.c" "main.cpp")
+#set(SOURCE_FILES "src/glad.c" "main.cpp")
+
+# demo01
+set(
+        SOURCE_FILES "src/glad.c"
+        "src/demo01/main.cpp"
+        "src/demo01/Display.h" "src/demo01/Display.cpp"
+        "src/demo01/DisplayManager.h" "src/demo01/DisplayManager.cpp"
+        )
 add_executable(OpenGL ${SOURCE_FILES})
 
-#add_executable(opengl_start_03 main.cpp)
+
+
+
 
 # mac下这步很重要
 if (APPLE)
     target_link_libraries(OpenGL "-framework OpenGL")
     target_link_libraries(OpenGL "-framework GLUT")
+
 endif()
