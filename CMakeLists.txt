@@ -21,12 +21,19 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 #set(SOURCE_FILES "src/glad.c" "main.cpp")
 
 # demo01
-set(
-        SOURCE_FILES "src/glad.c"
-        "src/demo01/main.cpp"
-        "src/demo01/Display.h" "src/demo01/Display.cpp"
-        "src/demo01/DisplayManager.h" "src/demo01/DisplayManager.cpp"
-        )
+#set(
+#    SOURCE_FILES "src/glad.c"
+#    "src/demo01/main.cpp"
+#    "src/demo01/Display.h" "src/demo01/Display.cpp"
+#    "src/demo01/DisplayManager.h" "src/demo01/DisplayManager.cpp"
+#    )
+
+# demo02 https://www.bilibili.com/video/av70144328
+#set(SOURCE_FILES "src/glad.c" "src/demo02/main.cpp")
+
+# demo03 https://www.bilibili.com/video/av57654623
+set(SOURCE_FILES "src/glad.c" "src/demo03/main.cpp")
+
 add_executable(OpenGL ${SOURCE_FILES})
 
 
