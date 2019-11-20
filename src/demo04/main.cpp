@@ -1,8 +1,10 @@
-#include <glad/glad.h>
+//#include <glad/glad.h>
+#include <GL/glew.h>
 #include <glfw3.h>
 #include <iostream>
 
 
+void processInput(GLFWwindow*);
 
 using namespace std;
 int main(){
@@ -14,14 +16,18 @@ int main(){
     GLFWwindow* window = glfwCreateWindow(800, 600, "demo 04", nullptr, nullptr);
 
     glfwMakeContextCurrent(window); // 绑定上下文
-
-    // glad 初始化后， 就不再需要 libGLEW.2.1.dylib or gl32.dl
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
-        cout<< "glad loading error" << endl;
+    glewExperimental = true;
+    if(glewInit() != GLEW_OK){
+        glfwTerminate();
+        return -1;
     }
 
+    glViewport(0,0,800,600);
+
     while (!glfwWindowShouldClose(window)){
-        glClearColor(.2f,.3f,.3f,1.0f);
+        processInput(window);
+
+//        glClearColor(.2f,.3f,.3f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glDrawArrays(GL_TRIANGLES,0,3);
@@ -35,4 +41,9 @@ int main(){
     return 0;
 }
 
+void processInput(GLFWwindow* window){
 
+    if(glfwGetKey(window,GLFW_KEY_ESCAPE) == GLFW_PRESS){
+        glfwSetWindowShouldClose(window,true);
+    }
+}
