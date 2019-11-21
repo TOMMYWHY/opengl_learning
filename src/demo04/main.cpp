@@ -60,8 +60,7 @@ int main() {
         glShaderSource(vertexShader,1,&vertexShaderSource,NULL);
         glCompileShader(vertexShader);
 
-        unsigned int fragmentShader;
-        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+         fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragmentShader,1,&fragmentShaderSource,NULL);
         glCompileShader(fragmentShader);
 
