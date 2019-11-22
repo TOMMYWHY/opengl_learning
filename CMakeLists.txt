@@ -29,10 +29,10 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 #    )
 
 # demo02 https://www.bilibili.com/video/av70144328
-#set(SOURCE_FILES "src/glad.c" "src/demo02/main.cpp")
+set(SOURCE_FILES "src/glad.c" "src/demo02/main.cpp")
 
 # demo03 https://www.bilibili.com/video/av57654623
-set(SOURCE_FILES "src/glad.c" "src/demo03/main.cpp")
+#set(SOURCE_FILES "src/glad.c" "src/demo03/main.cpp")
 
 # demo04 https://www.bilibili.com/video/av24353839
 #set(SOURCE_FILES "src/glad.c" "src/demo04/main.cpp")
