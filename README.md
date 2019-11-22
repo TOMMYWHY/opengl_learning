@@ -32,6 +32,50 @@
 
 ### learning
 
+
+#### 工作流
+1. 初始化，创建窗口 -- 应该都一样吧。
+```cpp
+ glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+    window = glfwCreateWindow(800, 600, "hello demo-03", nullptr, nullptr);
+```
+
+2. 引擎   -- 无限循环的输出效果
+```cpp
+    glfwMakeContextCurrent(window); // 绑定上下文
+    while (!glfwWindowShouldClose(window)) {
+            glClearColor(.2f, .3f, .3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+    
+            glUseProgram(shaderProgramId);  // 使用 gpu program
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+    
+    
+            glfwPollEvents(); // 处理事件，如鼠标等
+            glfwSwapBuffers(window);
+        }
+    glfwTerminate();
+```
+
+3. 使用 shader -- 将写好的 shader 加载入 gpu
+
+```$xslt
+    int vertexShaderId = glCreateShader(GL_VERTEX_SHADER);  // 创建 vertex shader
+    glShaderSource(vertexShaderId, 1, &vertexShaderSource, nullptr); // 声明 id 指向 shader source
+    glCompileShader(vertexShaderId);  // 编译。。。
+    
+    int shaderProgramId = glCreateProgram();    // 创建 gpu 程序
+    glAttachShader(shaderProgramId, vertexShaderId);  // 添加
+    glAttachShader(shaderProgramId, fragmentShaderId);
+    glLinkProgram(shaderProgramId);     // 连接
+
+```
+
+
    
 
 
