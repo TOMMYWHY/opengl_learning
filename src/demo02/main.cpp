@@ -1,128 +1,142 @@
-#include <glad/glad.h>
+//#include <glad/glad.h>
+#include <glew.h>
 #include <glfw3.h>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
-#define R 0.5f
-#define n  100
-#define Pi  3.141592657519
 
-/*
- * https://www.bilibili.com/video/av18762006
- */
+float vertices[] = {
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.0f, 0.5f, 0.0f
+};
+GLFWwindow *window;
 
-void loadAndUseShader();
+void init();
+
+void vaoSet();
 
 
-int main(void) {
-    GLFWwindow *window;
-    if (!glfwInit()) {
-        return -1;
+static int compilerShader(unsigned int type, const string &source) {
+    unsigned int id = glCreateShader(type);
+    const char *src = &source[0];
+    glShaderSource(id, 1, &src, NULL);
+    glCompileShader(id);
+    int result;
+
+    glGetShaderiv(id,GL_COMPILE_STATUS,&result);
+    if(result == GL_FALSE){
+        int errLength;
+        glGetShaderiv(id,GL_INFO_LOG_LENGTH,&errLength);
+        char * msg = (char*)alloca(errLength* sizeof(char));
+        glGetShaderInfoLog(id, GL_INFO_LOG_LENGTH,&errLength,msg);
+        cout << "failed compile"<< (type == GL_VERTEX_SHADER ? "vertex shader" : "fragment shader") <<endl;
+        cout << msg <<endl;
+        glDeleteShader(id);
+        return  0;
     }
-    window = glfwCreateWindow(640, 480, "日了狗~！", NULL, NULL);
-    if (!window) {
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        cout << "glad loader fail~!" << endl;
-    }
+    return id;
+}
 
-    float vertices[] = {
-            0, 0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f
+static unsigned int createShader(const string &vertexShader, const string &fragmentShader) {
+    GLuint program = glCreateProgram();
+    unsigned int vShader = compilerShader(GL_VERTEX_SHADER, vertexShader);
+    unsigned int fShader = compilerShader(GL_FRAGMENT_SHADER, fragmentShader);
+    glAttachShader(program, vShader);
+    glAttachShader(program, fShader);
+    glLinkProgram(program);
+
+    glValidateProgram(program); // 未必须
+
+    glDeleteShader(vShader); // 回收
+    glDeleteShader(fShader); // 回收
+
+    return program;
+
+}
+
+
+
+int main() {
+    init();
+//    vaoSet();
+//===============================
+    float position[6] = {
+            -0.5f, -0.5f,
+            0.5f, -0.5f,
+            0.0f, 0.5f
     };
-
-    GLuint VAO, VBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
-
+    GLuint buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), position, GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
-
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 8, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
 
-    loadAndUseShader();
+//    =====shader====
+    string vertexShaderSource = "#version 330 core\n"
+                                "layout (location = 0) in vec3 aPos;\n"
+                                "void main(){\n"
+                                "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);}";
+
+    string fragmentShaderSource = "#version 330 core\n"
+                                  "out vec4 FragColor;\n"
+                                  "void main(){\n"
+                                  "FragColor = vec4(.05f, 0.2f, 0.2f, 1.0f);} ";
+
+    unsigned int shader;
+    shader = createShader(vertexShaderSource,fragmentShaderSource);
+    glUseProgram(shader);
+
 
     while (!glfwWindowShouldClose(window)) {
+        glClearColor(.2f, .3f, .3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(.2f, .5f, .5f, 1.0f);
-
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER,VBO);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
 
+        glfwPollEvents(); // 处理事件，如鼠标等
+        glfwSwapBuffers(window);
+    }
+    glDeleteShader(shader);
     glfwTerminate();
     return 0;
 }
 
-void loadAndUseShader() {
-    const char *vertexCode = "#version 330 core\n"
-                             "layout (location = 0) in vec3 aPos;\n"
-                             "void main(){\n"
-                             "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);}";
+void vaoSet() {
+    unsigned int VBO, VAO;
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices),vertices,GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+    glEnableVertexAttribArray(0);
+}
 
-    const char *fragmentCode = "#version 330 core\n"
-                               "out vec4 FragColor;\n"
-                               "void main(){\n"
-                               "    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);} ";
+void init() {
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+    window = glfwCreateWindow(800, 600, "hello Tommy", nullptr, nullptr);
 
-    GLuint vertex, fragment;
+    glfwMakeContextCurrent(window); // 绑定上下文
 
-//vertex
-    vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vertexCode, NULL);
-    glCompileShader(vertex);
+    // glad 初始化后， 就不再需要 libGLEW.2.1.dylib or gl32.dl
+    /*if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
+        cout<< "glad loading error" << endl;
 
-    int success;
-    char infoLog[512];
+    }*/
 
-    glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-        cout << " compile vertex fail \n" << infoLog << endl;
+    // 如果 glfwMakeContextCurrent glewInit 自动初始化。
+    if (glewInit() != GLEW_OK) {
+        cout << "glew error" << endl;
     }
-
-//fragment
-    fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment, 1, &fragmentCode, NULL);
-    glCompileShader(fragment);
-
-    glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-        cout << " compile fragment fail \n" << infoLog << endl;
-    }
-
-    GLuint PID = glCreateProgram();
-    glAttachShader(PID, vertex);
-    glAttachShader(PID, fragment);
-    glLinkProgram(PID);
-
-    glGetProgramiv(PID, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(PID, 512, nullptr, infoLog);
-        cout << " Program fail \n" << infoLog << endl;
-    }
-//    glDeleteBuffers(vertex);
-//    glDeleteBuffers(fragment);
-    glUseProgram(PID);
-
 }
