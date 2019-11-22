@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <glfw3.h>
 #include <iostream>
-
+using namespace std;
 
 void processInput(GLFWwindow *);
 
@@ -20,7 +20,7 @@ const char *fragmentShaderSource = "#version 330 core\n"
                                    "out vec4 FragColor;\n"
                                    "void main(){\n"
                                    "    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);} ";
-using namespace std;
+
 
 int main() {
     glfwInit();
