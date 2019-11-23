@@ -4,13 +4,20 @@
 #include <iostream>
 #include <math.h>
 
+float verticesNew[] = {
+        0.0f, 0.0f, 0.0f, //三  0
+        1.0f, 1.0f, 0.0f,   //一  1
+        0.0f, 1.0f, 0.0f,    //   二  2
+        1.0f, 0.0f, 0.0f //  四  3
+};
+
 float vertices[] = {
         -0.5f, -0.5f, 0.0f, 1,0,0,//三  0
         0.5f, 0.5f, 0.0f,   0,1,0,//一  1
         -.5f, .5f, 0.0f,    0,0,1,//   二  2
-
         0.5f, -0.5f, 0.0f,  1,0,0, //  四  3
 };
+
 
 // EBO 索引顺序， 有 VBO 的地方就有 EBO
 GLuint indices[] = {
@@ -70,7 +77,7 @@ int shadersSet() {
 
     const char *vertexShaderSource = "#version 330 core\n"
                                      "layout (location = 0) in vec3 aPos;\n"
-                                     "layout (location = 1) in vec3 aColor;\n"
+                                     "layout (location = 2) in vec3 aColor;\n"
 //                                     ===="out vec4 gl_Position;\n" // gl_Position 不能定义
                                      "out vec3 ourColor;\n" // 输出 rgb
 
@@ -123,26 +130,33 @@ int shadersSet() {
 }
 
 void vaoSet() {
-    unsigned int VBO, VAO, EBO;
+    unsigned int VBO[2], VAO, EBO;
     glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    glGenBuffers(2, VBO);
     glGenBuffers(1, &EBO);
 
 
     glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesNew), verticesNew, GL_DYNAMIC_DRAW);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
-
     //told gpu structure 位置
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0); // layout (location = 0)
 
+
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
+    //told gpu structure 位置
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *) 0);
+    glEnableVertexAttribArray(1); // layout (location = 0)
     // 颜色
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3* sizeof(float)));
-    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3* sizeof(float)));
+    glEnableVertexAttribArray(2);
 }
 
 void init() {
