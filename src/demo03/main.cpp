@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <iostream>
+#include <math.h>
 
 float vertices[] = {
         -0.5f, -0.5f, 0.0f, //三  0
@@ -19,6 +20,7 @@ GLuint indices[] = {
 
 
 GLFWwindow *window;
+int vertexColorLocation ;
 
 void init();
 
@@ -31,15 +33,21 @@ using namespace std;
 int main() {
     init();
     vaoSet();
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-//    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
     int shaderProgramId = shadersSet();
     while (!glfwWindowShouldClose(window)) {
+        float  timeValue = glfwGetTime();
+        float  redValue = (sin(timeValue)/1.2f);
+
         glClearColor(.2f, .3f, .3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shaderProgramId);  // 使用 gpu program
+
+        glUniform4f(vertexColorLocation,redValue,0.0f,0.0f,1.0f);
+
 //        glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -88,15 +96,32 @@ void init() {
 
 int shadersSet() {
     // 顶点 shader - 确定顶点位置
-    const char *vertexShaderSource = "#version 400 core\n"
-                                     "layout (location = 0) in vec3 aPos;\n" //
+
+
+    const char *vertexShaderSource = "#version 330 core\n"
+                                     "layout (location = 0) in vec3 aPos;\n"
                                      "void main(){\n"
+                                     "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);}";
+
+    const char *fragmentShaderSource = "#version 330 core\n"
+                                       "out vec4 FragColor;\n"
+                                       "uniform vec4 outsideColor;\n"
+                                       "void main(){\n"
+                                       "    FragColor = outsideColor;} ";
+
+   /* const char *vertexShaderSource = "#version 400 core\n"
+                                     "layout (location = 0) in vec3 aPos;\n" //
+                                     "out vec4 vertexColor;\n"
+                                     "void main(){\n"
+                                     "vertexColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n"
                                      "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);}"; //
     // 片面 shader - 每个像素着色
     const char *fragmentShaderSource = "#version 400 core\n"
                                        "out vec4 FragColor;\n"
+                                       "in vec4 vertexColor;\n"
                                        "void main(){\n"
-                                       "    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);} ";
+                                       "    FragColor = vertexColor;} ";
+//                                       "    FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);} ";*/
 
 
     int vertexShaderId = glCreateShader(GL_VERTEX_SHADER);  // 创建 vertex shader
@@ -111,6 +136,11 @@ int shadersSet() {
     glAttachShader(shaderProgramId, vertexShaderId);  // 添加
     glAttachShader(shaderProgramId, fragmentShaderId);
     glLinkProgram(shaderProgramId);     // 连接
+
+//  =====  outsideColor   =====
+     vertexColorLocation = glGetUniformLocation(shaderProgramId, "outsideColor"); // 找位置
+    glUseProgram(shaderProgramId);
+//    glUniform4f(vertexColorLocation,0.0f,1.0f,0.0f,1.0f);
 
     return shaderProgramId;
 
