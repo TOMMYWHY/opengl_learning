@@ -20,7 +20,7 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 # 这个glad.c在第2步中说过要拉到项目中，注意路径
 #set(SOURCE_FILES "src/glad.c" "main.cpp")
 
-# demo01
+# demo01 # oop
 #set(
 #    SOURCE_FILES "src/glad.c"
 #    "src/demo01/main.cpp"
@@ -28,13 +28,13 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 #    "src/demo01/DisplayManager.h" "src/demo01/DisplayManager.cpp"
 #    )
 
-# demo02 https://www.bilibili.com/video/av70144328
+# demo02 https://www.bilibili.com/video/av70144328  #
 #set(SOURCE_FILES "src/glad.c" "src/demo02/main.cpp")
 
-# demo03 https://www.bilibili.com/video/av57654623
+# demo03 https://www.bilibili.com/video/av57654623   # 阿西拜0328
 set(SOURCE_FILES "src/glad.c" "src/demo03/main.cpp")
 
-# demo04 https://www.bilibili.com/video/av24353839
+# demo04 https://www.bilibili.com/video/av24353839  # 傅老师
 #set(SOURCE_FILES "src/glad.c" "src/demo04/main.cpp")
 
 add_executable(OpenGL ${SOURCE_FILES})

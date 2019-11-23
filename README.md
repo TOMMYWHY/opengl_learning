@@ -75,6 +75,38 @@
 
 ```
 
+4. EBO  -- 定义点与点描绘关系
+
+逆时针描绘，与笛卡尔坐标象限方向一直
+```$xslt
+float vertices[] = {
+        -0.5f, -0.5f, 0.0f, //三  0
+        0.5f, 0.5f, 0.0f,   //一  1
+        -.5f, .5f, 0.0f, //   二  2
+
+        0.5f, -0.5f, 0.0f //  四  3
+};
+
+// EBO 索引顺序， 有 VBO 的地方就有 EBO
+GLuint indices[] = {
+        0, 1, 2, // 三一二
+        0, 3, 1  // 三四一
+
+};
+...
+    // 将点索引顺序加入 buffer 中
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
+       
+```
+
+#### shader
+
+1. in out  -- gpu中 shader之间通信
+
+2. uniform  -- cpu 到 gpu 
+
+
+
 
    
 
