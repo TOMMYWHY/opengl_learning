@@ -3,13 +3,14 @@
 
 #include <glfw3.h>
 #include <iostream>
+#include "stb_image.h"
 
 float vertices[] = {
-        -0.5f, -0.5f, 0.0f, //三  0
-        0.5f, 0.5f, 0.0f,   //一  1
-        -.5f, .5f, 0.0f, //   二  2
+        -0.5f, -0.5f, 0.0f,0,0, //三  0
+        0.5f, 0.5f, 0.0f, 1,0,  //一  1
+        -.5f, .5f, 0.0f, 1,1,//   二  2
 
-        0.5f, -0.5f, 0.0f //  四  3
+        0.5f, -0.5f, 0.0f,0,1 //  四  3
 };
 
 // EBO 索引顺序， 有 VBO 的地方就有 EBO
@@ -34,10 +35,17 @@ int main() {
     vaoSet();
     Shader myShader;
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-//    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
-//    int shaderProgramId = shadersSet();
+
+    // loading image
+    int width,height,nrChannels;
+    unsigned char* data = stbi_load("src/demo03/box.jpg",&width,&height,&nrChannels,0);
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width,height,0, GL_RGB,GL_UNSIGNED_BYTE,data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(data);
+
     while (!glfwWindowShouldClose(window)) {
         glClearColor(.2f, .3f, .3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -69,8 +77,12 @@ void vaoSet() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+    //position
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
+    //texture
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 }
 
 void init() {

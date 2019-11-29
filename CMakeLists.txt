@@ -32,7 +32,11 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 #set(SOURCE_FILES "src/glad.c" "src/demo02/main.cpp")
 
 # demo03 https://www.bilibili.com/video/av57654623   # 阿西拜0328
-set(SOURCE_FILES "src/glad.c" "src/demo03/main.cpp" "src/demo03/Shader.h" "src/demo03/Shader.cpp")
+set(SOURCE_FILES "src/glad.c" "src/demo03/main.cpp"
+        "src/demo03/Shader.h" "src/demo03/Shader.cpp"
+        "src/demo03/stb_image.h" "src/demo03/stb_image.cpp"
+        "src/demo03/box.jpg"
+        )
 
 # demo04 https://www.bilibili.com/video/av24353839  # 傅老师
 #set(SOURCE_FILES "src/glad.c" "src/demo04/main.cpp")

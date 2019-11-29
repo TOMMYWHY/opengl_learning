@@ -12,13 +12,18 @@ Shader::Shader() {
     // 顶点 shader - 确定顶点位置
     const char *vertexShaderSource = "#version 400 core\n"
                                      "layout (location = 0) in vec3 aPos;\n" //
+                                     "layout (location = 1) in vec2 aTexCoord;\n" //
+                                     "out  vec2 TexCoord;\n" //
                                      "void main(){\n"
+                                     "TexCoord = aTexCoord; \n"
                                      "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);}"; //
     // 片面 shader - 每个像素着色
     const char *fragmentShaderSource = "#version 400 core\n"
+                                       "in  vec2 TexCoord;\n"
+                                       "uniform  sample2D ourTexture;\n"
                                        "out vec4 FragColor;\n"
                                        "void main(){\n"
-                                       "    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);} ";
+                                       "FragColor = texture(ourTexture,TexCoord);} ";
 
 
     int vertexShaderId = glCreateShader(GL_VERTEX_SHADER);  // 创建 vertex shader
