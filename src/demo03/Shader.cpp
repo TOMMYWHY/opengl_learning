@@ -3,6 +3,9 @@
 //
 
 #include "Shader.h"
+#include <string>
+#include <iostream>
+using namespace std;
 
 
 Shader::Shader() {
@@ -26,15 +29,18 @@ Shader::Shader() {
     glShaderSource(fragmentShaderId, 1, &fragmentShaderSource, nullptr);
     glCompileShader(fragmentShaderId);
 
-    int shaderProgramId = glCreateProgram();    // 创建 gpu 程序
+    shaderProgramId = glCreateProgram();    // 创建 gpu 程序
     glAttachShader(shaderProgramId, vertexShaderId);  // 添加
     glAttachShader(shaderProgramId, fragmentShaderId);
     glLinkProgram(shaderProgramId);     // 连接
 
-    return shaderProgramId;
+//    return shaderProgramId;
 }
 
 
-void useShader(){
-
+void Shader::useShader(){
+//    cout<<"useShader" <<endl;
+    glUseProgram(shaderProgramId);
 }
+
+Shader::~Shader() {}

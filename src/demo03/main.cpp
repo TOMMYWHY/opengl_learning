@@ -1,4 +1,6 @@
 #include <glad/glad.h>
+#include "Shader.h"
+
 #include <glfw3.h>
 #include <iostream>
 
@@ -30,15 +32,18 @@ using namespace std;
 int main() {
     init();
     vaoSet();
+    Shader myShader;
+
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 //    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
-    int shaderProgramId = shadersSet();
+//    int shaderProgramId = shadersSet();
     while (!glfwWindowShouldClose(window)) {
         glClearColor(.2f, .3f, .3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(shaderProgramId);  // 使用 gpu program
+        myShader.useShader();
+//        glUseProgram(shaderProgramId);  // 使用 gpu program
 //        glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

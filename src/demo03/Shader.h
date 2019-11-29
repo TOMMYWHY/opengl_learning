@@ -6,6 +6,8 @@
 #define OPENGL_START_03_SHADER_H
 
 #include <glad.h>
+#include <iostream>
+
 
 
 class Shader {
