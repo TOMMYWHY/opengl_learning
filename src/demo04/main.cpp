@@ -3,6 +3,7 @@
 #include <glfw3.h>
 #include <iostream>
 #include <math.h>
+#include "Shader.h"
 
 
 void processInput(GLFWwindow *);
@@ -38,6 +39,8 @@ const char *fragmentShaderSource = "#version 330 core\n"
 using namespace std;
 
 int main() {
+    Shader myShader = Shader("vertexShaderSource.txt","fragmentShaderSource.txt");
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
