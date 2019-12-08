@@ -41,6 +41,11 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 # demo04 https://www.bilibili.com/video/av24353839  # 傅老师
 set(SOURCE_FILES "src/glad.c" "src/demo04/main.cpp" "src/demo04/Shader.h" "src/demo04/Shader.cpp")
 
+# DDA
+#set(SOURCE_FILES "src/glad.c" "src/algorithm/DDA.cpp" )
+set(SOURCE_FILES "src/glad.c" "src/algorithm/DDA_01.cpp" )
+
+
 add_executable(OpenGL ${SOURCE_FILES})
 
 
