@@ -18,13 +18,15 @@ void LineDDA(int x0, int y0, int x1, int y1) {
     float dy = y1 - y0;
     if (dx != 0) {
         m = dy / dx;
+        // 斜率 < 1 则 对 dx 求导。
         if (m <= 1 && m >= -1) {
             y = y0;
             for (x = x0; x <= x1; x++) {
                 glVertex2i(x, int(y + 0.5));
-                y += m;
+                y += m; // 增量为 斜率
             }
         }
+        // 斜率 > 1 则 对 dy 求导。
         if (m > 1 || m < -1) {
             m = 1 / m;
             x = x0;
@@ -69,6 +71,7 @@ int main(int argc, char *argv[]) {
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();
 
+    // 设置坐标
     glOrtho(0.0, 500.0, 0.0, 500.0, 0.0, 1.0);
 
     while (!glfwWindowShouldClose(window)) {
