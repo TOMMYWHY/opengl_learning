@@ -5,10 +5,16 @@
 using namespace std;
 
 
-float xs = 10.0;
+/*float xs = 10.0;
 float ys = 10.0;
 float xe = 370.0;
 float ye = 150.0;
+//float ye = 190.0;*/
+
+float xe = 10.0;
+float ye = 10.0;
+float xs = 370.0;
+float ys = 150.0;
 //float ye = 190.0;
 
 
@@ -22,24 +28,32 @@ void bresenham(int x0, int y0, int x1, int y1) {
 
     if(dx !=0){
         k = dy/dx;
-        if(k < 1){
+        if(k < 1 && k >= -1){
             y = y0;
             for(x=x0;x<=x1;x++){
-//               d = d>=1 ? d+k-1 : d+k;
-                if(d+k >= 1){
-                    d = d+k -1;
-                }else{d= d+k;}
-                cout <<"d: "<< d <<endl;
-
+                d = (d+k >=1) ? d+k-1 : d+k;
+//                cout <<"d: "<< d <<endl;
                 if(d<0.5){
                     y ++;
                 } else{
                     y=y;
                 }
-//                cout <<"d: "<< d <<"; x:" << x <<"; y: "<< y <<endl;
                 glVertex2i(int(x),int (y));
             }
 
+        }
+        if(k >1 || k<-1){
+            k = 1/k;
+            x = x0;
+            for(y=y0;y<=y1;x++){
+                d = (d+k >=1) ? d+k-1 : d+k;
+                if(d<0.5){
+                    y ++;
+                } else{
+                    y=y;
+                }
+                glVertex2i(int(x),int (y));
+            }
         }
     }
 
@@ -54,6 +68,7 @@ void bresenham(int x0, int y0, int x1, int y1) {
     bresenham(xs,ys,xe,ye);
     return 0;
 }*/
+
 int main(int argc, char *argv[]) {
     GLFWwindow *window;
     glfwInit();

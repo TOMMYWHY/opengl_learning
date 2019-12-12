@@ -47,7 +47,8 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 
 # DDA
 #set(SOURCE_FILES "src/glad.c" "src/algorithm/DDA.cpp" )
-set(SOURCE_FILES "src/glad.c" "src/algorithm/DDA_01.cpp" )
+set(SOURCE_FILES "src/glad.c" "src/algorithm/DDA_line.cpp" )
+#set(SOURCE_FILES "src/glad.c" "src/algorithm/bresenham.cpp" )
 
 
 add_executable(OpenGL ${SOURCE_FILES})

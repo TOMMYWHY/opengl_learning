@@ -4,11 +4,25 @@
 
 using namespace std;
 
+/*
+ * 该算法 有 bug！!~~~！！
+ *
+ * 问题在于 当 起始点 大于 重点时（ x1- x0 <0 || y1-y0 < 0） 算法中依然使用  y = y0;
+ * 并没有将起始点进行交换。
+ */
 
-float xs = 10.0;
+/*float xs = 10.0;
 float ys = 10.0;
 float xe = 370.0;
-float ye = 190.0;
+//float ye = 190.0;
+float ye = 390.0;*/
+
+
+float xe = 10.0;
+float ye = 10.0;
+float xs = 370.0;
+//float ye = 190.0;
+float ys = 390.0;
 
 void LineDDA(int x0, int y0, int x1, int y1) {
     float x = 0.0;
@@ -18,15 +32,13 @@ void LineDDA(int x0, int y0, int x1, int y1) {
     float dy = y1 - y0;
     if (dx != 0) {
         m = dy / dx;
-        // 斜率 < 1 则 对 dx 求导。
         if (m <= 1 && m >= -1) {
             y = y0;
             for (x = x0; x <= x1; x++) {
                 glVertex2i(x, int(y + 0.5));
-                y += m; // 增量为 斜率
+                y += m;
             }
         }
-        // 斜率 > 1 则 对 dy 求导。
         if (m > 1 || m < -1) {
             m = 1 / m;
             x = x0;
@@ -71,7 +83,6 @@ int main(int argc, char *argv[]) {
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();
 
-    // 设置坐标
     glOrtho(0.0, 500.0, 0.0, 500.0, 0.0, 1.0);
 
     while (!glfwWindowShouldClose(window)) {
@@ -100,41 +111,3 @@ int main(int argc, char *argv[]) {
     exit(EXIT_SUCCESS);
 }
 
-/*
-int main(void)
-{
-    GLFWwindow* window;
-
-    if (!glfwInit())
-        return -1;
-    window = glfwCreateWindow(500, 500, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-    glViewport(0,0,500,500);
-
-    while (!glfwWindowShouldClose(window))
-    {
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glBegin(GL_POINTS);
-//        LineDDA(xs, ys, xe, ye);
-
-
-//        glVertex2f(, );
-        render_loop();
-
-        glEnd();
-
-        glfwSwapBuffers(window);
-
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
-    return 0;
-}
-*/
