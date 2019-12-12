@@ -14,51 +14,45 @@ using namespace std;
 /*float xs = 10.0;
 float ys = 10.0;
 float xe = 370.0;
-//float ye = 190.0;
+float ye = 190.0;
 float ye = 390.0;*/
-
 
 float xe = 10.0;
 float ye = 10.0;
 float xs = 370.0;
-//float ye = 190.0;
-float ys = 390.0;
+float ys = 190.0;
+//float ys = 390.0;
 
-void LineDDA(int x0, int y0, int x1, int y1) {
-    float x = 0.0;
-    float y = 0.0;
-    float m = 0.0;
-    float dx = x1 - x0;
-    float dy = y1 - y0;
-    if (dx != 0) {
-        m = dy / dx;
-        if (m <= 1 && m >= -1) {
-            y = y0;
-            for (x = x0; x <= x1; x++) {
-                glVertex2i(x, int(y + 0.5));
-                y += m;
-            }
+void LineDDA(int a0, int b0, int a1, int b1) {
+    float dx, dy, x, y;
+    float k;
+    dx = a1 - a0;
+    dy = b1 - b0;
+    k = dy / dx;
+
+    if (abs(k) < 1) {  // 斜率 小于 1
+        if (a0 > a1) {
+            swap(a0,a1); // 交换 起始点 与 终点
+            swap(b0,b1);
         }
-        if (m > 1 || m < -1) {
-            m = 1 / m;
-            x = x0;
-            for (y = y0; y <= y1; y++) {
-                glVertex2i(int(x + 0.5), y);
-                x += m;
-            }
+        y = b0;
+        for (x = a0; x < a1; x++) {
+            glVertex2i(x, (int)(y + 0.5));
+            y += abs(k); //???????
         }
-    } else {
-        int x = x0;
-        int y = 0;
-        y = (y0 <= y1) ? y0 : y1;
-        int d = fabs((double) (y0 - y1));
-        while (d >= 0) {
-            glVertex2i(x, y);
-            y++;
-            d--;
+    } else{
+        if (b0 > b1) {
+            swap(a0,a1); // 交换 起始点 与 终点
+            swap(b0,b1);
+        }
+        x =a0;
+        for (y=b0; y < b1; y++) {
+            glVertex2i((int)(x + 0.5), y);
+            x += 1.0 / k;
         }
     }
 }
+
 
 int main(int argc, char *argv[]) {
     GLFWwindow *window;
@@ -95,7 +89,7 @@ int main(int argc, char *argv[]) {
 
         // Draw gears
 //        render_loop();
-        LineDDA(xs,ys,xe,ye);
+        LineDDA(xs, ys, xe, ye);
 
 
         glEnd();
