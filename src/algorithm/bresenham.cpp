@@ -6,17 +6,17 @@
 using namespace std;
 
 
-/*float xs = 10.0;
+float xs = 10.0;
 float ys = 30.0;
 float xe = 270.0;
-float ye = 150.0;
-//float ye = 490.0;*/
+//float ye = 150.0;
+float ye = 490.0;
 
-float xe = 10.0;
+/*float xe = 10.0;
 float ye = 20.0;
 float xs = 370.0;
 float ys = 50.0;
-//float ys = 490.0;
+//float ys = 490.0;*/
 
 
 void bresenham(int x0, int y0, int x1, int y1) {
@@ -26,47 +26,57 @@ void bresenham(int x0, int y0, int x1, int y1) {
     }
     float x = 0.0;
     float y = 0.0;
-    float dx = x1-x0;
-    float dy = y1-y0;
+    float dx = x1 - x0;
+    float dy = y1 - y0;
     float k = 0.0;
     float d = 0;
+//    float e = d - 0.5;
     float e = -dx;
 
+    /* e 扩大 dx 倍
+     *  e * 2dx
+     *  e = e + k => e = e + 2*dy/dx
+     *              e*2*dx = e*2*dx + 2*dy
+     * */
 
-    if(dx !=0){
-        k = dy/dx;
-        if(k < 1 && k >= -1){
+    if (dx != 0) {
+        k = dy / dx;
+        if (k < 1 && k >= -1) {
             y = y0;
-            for(x=x0;x<=x1;x++){
-                if(d>0.5){
-                    y = y+1;
-                    d--;
-                }else if(d<0.5){
-                    y=y;
+            for (x = x0; x <= x1; x++) {
+                if (e > 0) {
+                    y = y + 1;
+//                    e--;
+                    e = e - 2 * dx;
+                } else if (e <= 0) {
+                    y = y;
                 }
-                d=d+k;
-                cout <<"d: "<< setprecision(3) <<d <<  "; x: " << x << "; y: " << y<<endl;
-                glVertex2i(int(x),int (y));
+//                d = d + k;
+//                e=e+k;
+                e = e + 2 * dy;
+//                cout << "d: " << setprecision(3) << d << "; x: " << x << "; y: " << y << endl;
+                cout << "e: " << setprecision(3) << e << "; x: " << x << "; y: " << y << endl;
+                glVertex2i(int(x), int(y));
             }
 
         }
-        if(k>1 || k <-1){
+        if (k > 1 || k < -1) {
             x = x0;
-            for (y = y0;  y<y1 ; y++) {
-                if(d>0.5){
-                    x = x+1;
-                    d--;
-                }else if(d<0.5){
-                    x=x;
+            for (y = y0; y < y1; y++) {
+                if (e > 0) {
+                    x = x + 1;
+                    e = e - 2 * dy;
+                } else if (e < 0) {
+                    x = x;
                 }
-                d=d+ 1/k;
-                cout <<"d: "<< setprecision(3) <<d <<  "; x: " << x << "; y: " << y<<endl;
-                glVertex2i(int(x),int (y));
+                d = d + 1 / k;
+                e = e + 2 * dx;
+                cout << "d: " << setprecision(3) << d << "; x: " << x << "; y: " << y << endl;
+                glVertex2i(int(x), int(y));
             }
         }
 
     }
-
 
 
 }
@@ -99,7 +109,7 @@ int main(int argc, char *argv[]) {
         glColor3f(1.0, 0.0, 0.0);
         glBegin(GL_LINES);
 
-        bresenham(xs,ys,xe,ye);
+        bresenham(xs, ys, xe, ye);
 
         glEnd();
         glfwSwapBuffers(window);
