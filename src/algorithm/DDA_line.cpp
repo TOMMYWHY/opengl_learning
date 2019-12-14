@@ -54,6 +54,9 @@ void LineDDA(int a0, int b0, int a1, int b1) {
 }
 
 
+
+
+
 int main(int argc, char *argv[]) {
     GLFWwindow *window;
     glfwInit();

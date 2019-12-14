@@ -5,17 +5,17 @@
 using namespace std;
 
 
-/*float xs = 10.0;
+float xs = 10.0;
 float ys = 10.0;
 float xe = 370.0;
 float ye = 150.0;
-//float ye = 190.0;*/
-
-float xe = 10.0;
-float ye = 10.0;
-float xs = 370.0;
-float ys = 150.0;
 //float ye = 190.0;
+
+//float xe = 10.0;
+//float ye = 10.0;
+//float xs = 370.0;
+//float ys = 150.0;
+////float ye = 190.0;
 
 
 void bresenham(int x0, int y0, int x1, int y1) {
