@@ -1,60 +1,70 @@
 #include <GLFW/glfw3.h>
 #include<cmath>
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
 
-float xs = 10.0;
-float ys = 10.0;
-float xe = 370.0;
+/*float xs = 10.0;
+float ys = 30.0;
+float xe = 270.0;
 float ye = 150.0;
-//float ye = 190.0;
+//float ye = 490.0;*/
 
-//float xe = 10.0;
-//float ye = 10.0;
-//float xs = 370.0;
-//float ys = 150.0;
-////float ye = 190.0;
+float xe = 10.0;
+float ye = 20.0;
+float xs = 370.0;
+float ys = 50.0;
+//float ys = 490.0;
 
 
 void bresenham(int x0, int y0, int x1, int y1) {
+    if (x0 > x1 && y0 > y1) {
+        swap(x0, x1); // 确保划线方向 从左往右 从下往上 画
+        swap(y0, y1);
+    }
     float x = 0.0;
     float y = 0.0;
     float dx = x1-x0;
     float dy = y1-y0;
     float k = 0.0;
     float d = 0;
+    float e = -dx;
+
 
     if(dx !=0){
         k = dy/dx;
         if(k < 1 && k >= -1){
             y = y0;
             for(x=x0;x<=x1;x++){
-                d = (d+k >=1) ? d+k-1 : d+k;
-//                cout <<"d: "<< d <<endl;
-                if(d<0.5){
-                    y ++;
-                } else{
+                if(d>0.5){
+                    y = y+1;
+                    d--;
+                }else if(d<0.5){
                     y=y;
                 }
+                d=d+k;
+                cout <<"d: "<< setprecision(3) <<d <<  "; x: " << x << "; y: " << y<<endl;
                 glVertex2i(int(x),int (y));
             }
 
         }
-        if(k >1 || k<-1){
-            k = 1/k;
+        if(k>1 || k <-1){
             x = x0;
-            for(y=y0;y<=y1;x++){
-                d = (d+k >=1) ? d+k-1 : d+k;
-                if(d<0.5){
-                    y ++;
-                } else{
-                    y=y;
+            for (y = y0;  y<y1 ; y++) {
+                if(d>0.5){
+                    x = x+1;
+                    d--;
+                }else if(d<0.5){
+                    x=x;
                 }
+                d=d+ 1/k;
+                cout <<"d: "<< setprecision(3) <<d <<  "; x: " << x << "; y: " << y<<endl;
                 glVertex2i(int(x),int (y));
             }
         }
+
     }
 
 
@@ -62,8 +72,6 @@ void bresenham(int x0, int y0, int x1, int y1) {
 }
 
 /*int main(){
-
-
     cout <<"==="  <<endl;
     bresenham(xs,ys,xe,ye);
     return 0;
