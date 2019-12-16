@@ -47,7 +47,7 @@ void bresenham(int x0, int y0, int x1, int y1) {
                 if (e > 0) {
                     y = y + 1;
 //                    e--;
-                    e = e - 2 * dx;
+                    e = e - 2 * dx; // === e = e -     1
                 } else if (e <= 0) {
                     y = y;
                 }
