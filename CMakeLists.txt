@@ -43,12 +43,12 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 
 
 # demo05 https://github.com/wanlin405/Computer_Graphics  # 万琳
-#set(SOURCE_FILES "src/glad.c" "src/demo05/main.cpp" )
+set(SOURCE_FILES "src/glad.c" "src/demo05/main.cpp" )
 
 # DDA
 #set(SOURCE_FILES "src/glad.c" "src/algorithm/DDA.cpp" )
 #set(SOURCE_FILES "src/glad.c" "src/algorithm/DDA_line.cpp" )
-set(SOURCE_FILES "src/glad.c" "src/algorithm/bresenham.cpp" )
+#set(SOURCE_FILES "src/glad.c" "src/algorithm/bresenham.cpp" )
 #set(SOURCE_FILES "src/glad.c" "src/algorithm/midLine.cpp" )
 
 
