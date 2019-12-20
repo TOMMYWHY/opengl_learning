@@ -4,11 +4,16 @@
 
 float vertices[] = {
         0.5f, 0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
+//        -0.5f, -0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
-        0.5f, 0.5f, 0.0f,
+//        0.5f, 0.5f, 0.0f,
         -0.5f, 0.5f, 0.0f
+};
+
+unsigned int indices[] = {
+        0, 1, 3, // 第一个三角形
+        1, 2, 3 // 第二个三角形
 };
 
 // 顶点着色器源码
@@ -58,9 +63,16 @@ int main(){
     glGenVertexArrays(1, &vertex_array_object);
     glBindVertexArray(vertex_array_object);
 
+    GLuint element_buffer_object; // == EBO
+    glGenBuffers(1, &element_buffer_object);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, element_buffer_object);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
 // glVertexAttribPointer
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
+
+    //================//
 
 
     int vertexShaderId = glCreateShader(GL_VERTEX_SHADER);  // 创建 vertex shader
@@ -79,6 +91,7 @@ int main(){
     glUseProgram(shaderProgramId);
 
 //.........
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     while(!glfwWindowShouldClose(window)){
         glClearColor(0.0f, 0.34f, 0.57f, 1.0f);
