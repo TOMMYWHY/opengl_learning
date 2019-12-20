@@ -4,7 +4,7 @@
 
 float vertices[] = {
         0.5f, 0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
         0.5f, 0.5f, 0.0f,
@@ -25,6 +25,7 @@ const char *fragment_shader_source =
         "void main()\n"
         "{\n"
         " FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n" "}\n\0";
+
 
 int main(){
     glfwInit();
