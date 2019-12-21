@@ -3,6 +3,14 @@
 #include <cmath>
 #include <iostream>
 #include <math.h>
+/*
+ * 渐变色矩形
+ *
+ * 一个 VBO 数组 存放 verticesNew 与 vertices
+ * 从 verticesNew 取点
+ * 从 vertices 取色
+ *
+ */
 
 float verticesNew[] = {
         0.0f, 0.0f, 0.0f, //三  0
@@ -55,7 +63,6 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shaderProgramId);  // 使用 gpu program
-
 
         glUniform4f(vertexColorLocation,redValue,0.0f,0.0f,1.0f);
 
@@ -120,7 +127,7 @@ int shadersSet() {
     glAttachShader(shaderProgramId, fragmentShaderId);
     glLinkProgram(shaderProgramId);     // 连接
 
-//  =====  outsideColor   =====
+//  =====  outsideColor  uniform  =====
     vertexColorLocation = glGetUniformLocation(shaderProgramId, "outsideColor"); // 找位置
     glUseProgram(shaderProgramId);
 //    glUniform4f(vertexColorLocation,0.0f,1.0f,0.0f,1.0f);
@@ -137,8 +144,8 @@ void vaoSet() {
 
 
     glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
 
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(verticesNew), verticesNew, GL_DYNAMIC_DRAW);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
@@ -146,18 +153,15 @@ void vaoSet() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0); // layout (location = 0)
 
-
-
     glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
-    //told gpu structure 位置
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *) 0);
-    glEnableVertexAttribArray(1); // layout (location = 0)
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3* sizeof(float)));
+    glEnableVertexAttribArray(1); // layout (location = 1)
+
     // 颜色
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3* sizeof(float)));
-    glEnableVertexAttribArray(2);
-//    cout << VBO[2] << endl;
+    glEnableVertexAttribArray(2);// layout (location = 2)
 }
 
 void init() {
