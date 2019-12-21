@@ -3,21 +3,22 @@
 #include <iostream>
 
 float vertices[] = {
-        0.5f, 0.5f, 0.0f,
-//        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-//        0.5f, 0.5f, 0.0f,
-        -0.5f, 0.5f, 0.0f
-
-
+        // 第一个三角形
+        0.5f, 0.5f, 0.0f,     // 右上
+        0.5f, -0.5f, 0.0f,    // 右下
+        -0.5f, -0.5f, 0.0f,   // 左下
+        // 第二个三角形
+        -0.5f, -0.5f, 0.0f,   // 左下
+        0.5f, 0.5f, 0.0f,     // 右上
+        -0.5f, 0.5f, 0.0f     // 左上
 };
+
 
 unsigned int indices[] = {
-        0, 1, 3, // 第一个三角形
-        1, 2, 3 // 第二个三角形
-
+        0, 1, 5,              // 第一个三角形
+        1, 2, 5               // 第二个三角形
 };
+
 
 // 顶点着色器源码
 const char *vertex_shader_source =
@@ -75,7 +76,7 @@ int main(){
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
 
-    //================//
+    //================// 生成并编译着色器
 
 
     int vertexShaderId = glCreateShader(GL_VERTEX_SHADER);  // 创建 vertex shader
@@ -94,6 +95,7 @@ int main(){
     glUseProgram(shaderProgramId);
 
 //.........
+
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     while(!glfwWindowShouldClose(window)){
