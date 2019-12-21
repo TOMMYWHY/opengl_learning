@@ -9,11 +9,14 @@ float vertices[] = {
         -0.5f, -0.5f, 0.0f,
 //        0.5f, 0.5f, 0.0f,
         -0.5f, 0.5f, 0.0f
+
+
 };
 
 unsigned int indices[] = {
         0, 1, 3, // 第一个三角形
         1, 2, 3 // 第二个三角形
+
 };
 
 // 顶点着色器源码
@@ -53,7 +56,7 @@ int main(){
 
     glViewport(0,0,800,600);
 
-//    VAO VBO
+//    VAO VBO EBO
     unsigned int vertex_buffer_object; // VBO
     glGenBuffers(1, &vertex_buffer_object);
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object);
@@ -99,7 +102,9 @@ int main(){
 
         glUseProgram(shaderProgramId);
         glBindVertexArray(vertex_array_object);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+//        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
         glBindVertexArray(0);
 
         glfwSwapBuffers(window);
