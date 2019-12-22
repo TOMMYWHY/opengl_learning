@@ -13,9 +13,11 @@
 class Shader {
 public:
     int shaderProgramId;
-    Shader(void);
+
+public:
+    Shader();
     void useShader();
-    ~Shader(void);
+    ~Shader();
 };
 
 
