@@ -1,9 +1,13 @@
 #include <glad/glad.h>
+
+#include "Shader.h"
+
 #include <glfw3.h>
 #include <cmath>
 #include <iostream>
 #include <math.h>
 #include "stb_image.h"
+
 
 float verticesNew[] = {
         -0.5f, -0.5f, 0.0f, 0, 0,
@@ -39,7 +43,7 @@ int main() {
 //    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
     int shaderProgramId = shadersSet();
-
+//        Shader myShader;
 // texture
     int width, height, nrChannels;
     unsigned char *data = stbi_load("./box.jpg", &width, &height, &nrChannels, 0);
@@ -58,6 +62,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shaderProgramId);  // 使用 gpu program
+//        myShader.useShader();
 
         glUniform4f(vertexColorLocation, redValue, 0.0f, 0.0f, 1.0f);
 
