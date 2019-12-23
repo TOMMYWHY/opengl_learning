@@ -46,10 +46,37 @@ int main() {
 //        Shader myShader;
 // texture
     int width, height, nrChannels;
-    unsigned char *data = stbi_load("./box.jpg", &width, &height, &nrChannels, 0);
+    unsigned char *data;
+
+    unsigned int texture[2];
+    glGenTextures(2,texture);
+    glBindTexture(GL_TEXTURE_2D,texture[0]);
+
+//    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+
+    /* 定义 纹理1 */
+    data = stbi_load("./box.jpg", &width, &height, &nrChannels, 0);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(data);
+
+    /* 定义 纹理2 */
+    glBindTexture(GL_TEXTURE_2D,texture[1]);
+    data = stbi_load("./texture2.jpg", &width, &height, &nrChannels, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(data);
+
+    /* 将纹理 加入 shader 程序中 */
+    glUniform1i(glGetUniformLocation(shaderProgramId,"ourTexture1"),0);
+    glUniform1i(glGetUniformLocation(shaderProgramId,"ourTexture2"),1);
+    /* 激活 纹理，（最大16个纹理） */
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D,texture[0]);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D,texture[1]);
+
 
 
     while (!glfwWindowShouldClose(window)) {
@@ -95,9 +122,10 @@ int shadersSet() {
     const char *fragmentShaderSource = "#version 400 core\n"
                                        "out vec4 FragColor;\n"
                                        "in vec2 TexCoordinate;\n"
-                                       "uniform sampler2D ourTexture;\n"
+                                       "uniform sampler2D ourTexture1;\n"
+                                       "uniform sampler2D ourTexture2;\n"
                                        "void main(){\n"
-                                       "FragColor = texture(ourTexture,TexCoordinate);} ";
+                                       "FragColor = mix(texture(ourTexture1,TexCoordinate),texture(ourTexture2,TexCoordinate),0.6 );} ";
 
 
     int vertexShaderId = glCreateShader(GL_VERTEX_SHADER);  // 创建 vertex shader
