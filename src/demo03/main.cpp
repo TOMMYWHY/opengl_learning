@@ -61,7 +61,7 @@ int main() {
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(data);
 
-    /* 定义 纹理2 */
+    /* 定义 纹理2 ？？？？？？？*/
     glBindTexture(GL_TEXTURE_2D,texture[1]);
     data = stbi_load("./texture2.jpg", &width, &height, &nrChannels, 0);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
