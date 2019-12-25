@@ -56,10 +56,10 @@ int main() {
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 
     /* 定义 纹理1 */
-    /*data = stbi_load("./box.jpg", &width, &height, &nrChannels, 0);
+    data = stbi_load("./box.jpg", &width, &height, &nrChannels, 0);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
-    stbi_image_free(data);*/
+    stbi_image_free(data);
 
     /* 定义 纹理2 ？？？？？？？*/
     glBindTexture(GL_TEXTURE_2D,texture[1]);
@@ -69,11 +69,11 @@ int main() {
     stbi_image_free(data);
 
     /* 将纹理 加入 shader 程序中 */
-//    glUniform1i(glGetUniformLocation(shaderProgramId,"ourTexture1"),0);
+    glUniform1i(glGetUniformLocation(shaderProgramId,"ourTexture1"),0);
     glUniform1i(glGetUniformLocation(shaderProgramId,"ourTexture2"),1);
     /* 激活 纹理，（最大16个纹理） */
-    /*glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D,texture[0]);*/
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D,texture[0]);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D,texture[1]);
 

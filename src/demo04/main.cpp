@@ -28,7 +28,7 @@ const char *vertexShaderSource = "#version 330 core\n"
                                  "void main(){\n"
                                  "vertexColor = vec4(aColor.x,aColor.y,aColor.z,1.0 ); \n"
                                  "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);}";
-00
+
 const char *fragmentShaderSource = "#version 330 core\n"
                                    "out vec4 FragColor;\n"
                                    "in vec4 vertexColor;\n"
@@ -110,11 +110,12 @@ int main() {
         glBindVertexArray(VAO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
-        float timeValue = glfwGetTime();
+        // uniform
+        /*float timeValue = glfwGetTime();
         float blueValue = (sin(timeValue) /2)+0.5f;
         int vertexColorLocation = glGetUniformLocation(shaderProgram,"outsideColor");
         glUseProgram(shaderProgram);
-        glUniform4f(vertexColorLocation,0,0,blueValue,1.0f);
+        glUniform4f(vertexColorLocation,0,0,blueValue,1.0f);*/
 
         glUseProgram(shaderProgram);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

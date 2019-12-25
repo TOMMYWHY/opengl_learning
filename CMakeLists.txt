@@ -33,17 +33,17 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 
 # demo03 https://www.bilibili.com/video/av57654623   # 阿西拜0328
 
-set(SOURCE_FILES "src/glad.c" "src/demo03/main.cpp"
-        "src/demo03/Shader.h" "src/demo03/Shader.cpp"
-        "src/demo03/stb_image.h" "src/demo03/stb_image.cpp"
-        "src/demo03/box.jpg"
-        )
+#set(SOURCE_FILES "src/glad.c" "src/demo03/main.cpp"
+#        "src/demo03/Shader.h" "src/demo03/Shader.cpp"
+#        "src/demo03/stb_image.h" "src/demo03/stb_image.cpp"
+#        "src/demo03/box.jpg"
+#        )
 
 #set(SOURCE_FILES "src/glad.c" "src/demo03/main_p10.cpp" "src/demo04/Shader.h" "src/demo04/Shader.cpp")
 
 
 # demo04 https://www.bilibili.com/video/av24353839  # 傅老师
-#set(SOURCE_FILES "src/glad.c" "src/demo04/main.cpp" "src/demo04/Shader.h" "src/demo04/Shader.cpp")
+set(SOURCE_FILES "src/glad.c" "src/demo04/main.cpp" "src/demo04/Shader.h" "src/demo04/Shader.cpp")
 
 
 # demo05 https://github.com/wanlin405/Computer_Graphics  # 万琳
