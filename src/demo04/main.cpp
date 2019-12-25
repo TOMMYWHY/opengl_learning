@@ -39,7 +39,8 @@ const char *fragmentShaderSource = "#version 330 core\n"
 using namespace std;
 
 int main() {
-    Shader myShader = Shader("vertexShaderSource.txt","fragmentShaderSource.txt");
+    Shader* myShader =new Shader("vertexShaderSource.txt","fragmentShaderSource.txt");
+//    myShader->test();
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

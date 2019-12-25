@@ -43,8 +43,15 @@ link_libraries(${OPENGL} ${GLEW_LINK} ${GLFW_LINK})
 
 
 # demo04 https://www.bilibili.com/video/av24353839  # 傅老师
-set(SOURCE_FILES "src/glad.c" "src/demo04/main.cpp" "src/demo04/Shader.h" "src/demo04/Shader.cpp")
-
+set(SOURCE_FILES "src/glad.c"
+        "src/demo04/main.cpp"
+        "src/demo04/Shader.h"
+        "src/demo04/Shader.cpp"
+#        "vertexShaderSource.txt" //shader.txt 文件 需要放到二进制执行目录下，同 图片纹理一致。
+        )
+#file(GLOB PROJECT_SHADERS vertexShaderSource.txt
+#        fragmentShaderSource.txt)
+#source_group("Shaders" FILES ${PROJECT_SHADERS})
 
 # demo05 https://github.com/wanlin405/Computer_Graphics  # 万琳
 #set(SOURCE_FILES "src/glad.c" "src/demo05/main.cpp" )
