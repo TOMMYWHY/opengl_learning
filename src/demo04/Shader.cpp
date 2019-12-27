@@ -22,7 +22,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath){
         if(!vertexFile.is_open() || fragmentFile.is_open()){
 //            throw exception("vertexFile open fail~!");
             throw "vertexFile or fragmentFile open fail~!";
-//            throw exception();
+//            throw exception();？？？？
         }
     }catch (const char* msg){
         cout << msg <<endl;
