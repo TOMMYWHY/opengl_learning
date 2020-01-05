@@ -5,12 +5,15 @@
 #include "Shader.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 using namespace std;
 
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath){
     ifstream vertexFile;
     ifstream fragmentFile;
+    stringstream vertexSSream;
+    stringstream fragmentSSrveam;
 
     vertexFile.open(vertexPath);
     fragmentFile.open(fragmentPath);
@@ -19,11 +22,24 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath){
 
 
     try {
-        if(!vertexFile.is_open() || fragmentFile.is_open()){
+        if(!vertexFile.is_open() || !fragmentFile.is_open()){
 //            throw exception("vertexFile open fail~!");
             throw "vertexFile or fragmentFile open fail~!";
 //            throw exception();？？？？
         }
+
+        vertexSSream << vertexFile.rdbuf(); // 读到的 buffer 存入 vertexSSream 中
+        fragmentSSrveam << fragmentFile.rdbuf();
+
+        vertexString = vertexSSream.str(); // 获得字符串
+        fragmentString = fragmentSSrveam.str();
+
+        vertexSource = vertexString.c_str(); // 将字符串 转成 char*
+        fragmentSource = fragmentString.c_str();
+
+//        printf(vertexSource);
+        cout <<"aaa:" << vertexSource <<endl;
+
     }catch (const char* msg){
         cout << msg <<endl;
     }

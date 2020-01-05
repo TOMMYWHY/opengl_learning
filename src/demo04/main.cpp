@@ -41,7 +41,7 @@ using namespace std;
 int main() {
     Shader* myShader =new Shader("vertexShaderSource.txt","fragmentShaderSource.txt");
 //    myShader->test();
-
+    cout <<"myShader:" << myShader <<endl;
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
