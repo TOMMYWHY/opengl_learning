@@ -8,10 +8,6 @@
 #include <math.h>
 #include "stb_image.h"
 
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
-#include "gtc/type_ptr.hpp"
-
 
 float verticesNew[] = {
         -0.5f, -0.5f, 0.0f, 0, 0,
@@ -41,17 +37,6 @@ int shadersSet();
 using namespace std;
 
 int main() {
-
-    glm::vec4 vec(1.0f,0.0f,0.0f,1.0f);
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::translate(trans,glm::vec3(1.0f,1.0f,0.0f));
-    vec = trans*vec;
-    cout << " x:"<< vec.x
-            << " y:"<< vec.y
-            << " z:"<< vec.z
-    <<endl;
-
-
     init();
     vaoSet();
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

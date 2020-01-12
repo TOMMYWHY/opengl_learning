@@ -48,7 +48,7 @@ static int compilerShaderFun(GLuint type,const string& source){
         char* msg = (char*)alloca(logLength* sizeof(char));
         glGetShaderInfoLog(id,GL_INFO_LOG_LENGTH,&logLength,msg);
         std::cout << "COMPILATION_FAILED\n" <<(type ==GL_VERTEX_SHADER?"GL_VERTEX_SHADER" : "GL_FRAGMENT_SHADER")
-                  << msg << std::endl;
+        << msg << std::endl;
         glDeleteShader(id);
         return 0;
     }
@@ -90,37 +90,18 @@ int main(){
         return -1;
     }*/
 
-   /* GLuint buffer; // VBO
+    GLuint buffer; // VBO
     glGenBuffers(1,&buffer);
     glBindBuffer(GL_ARRAY_BUFFER,buffer);
     glBufferData(GL_ARRAY_BUFFER, 6*sizeof(float),position,GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0,2,GL_FLOAT,GL_FLOAT,8, (void*)0); // ??
-    glBindBuffer(GL_ARRAY_BUFFER,0);*/
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+
+    GLuint shaderProgramme =  createProgrammeFun(vertex_shader_source,fragment_shader_source);
 
 
-   /*-----------*/
-    // 生成并绑定VAO和VBO
-    GLuint vertex_array_object; // == VAO
-    glGenVertexArrays(1, &vertex_array_object);
-    glBindVertexArray(vertex_array_object);
 
-    GLuint vertex_buffer_object; // == VBO
-    glGenBuffers(1, &vertex_buffer_object);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object);
-    // 将顶点数据绑定至当前默认的缓冲中
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangle), triangle, GL_STATIC_DRAW);
-
-    // 设置顶点属性指针
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // 解绑VAO和VBO
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-   /*-----------*/
-
-    GLuint shaderProgramme =  createProgrammeFun(vertex_shader_source,fragment_shader_source); // working properly~!
 
     while(!glfwWindowShouldClose(window)){
 
@@ -129,16 +110,12 @@ int main(){
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glUseProgram(shaderProgramme);
-//        glUseProgram(shader_program);
-        glBindVertexArray(vertex_array_object);                                    // 绑定VAO
-        glDrawArrays(GL_TRIANGLES, 0, 3);                                          // 绘制三角形
-        glBindVertexArray(0);                                                      // 解除绑定
+
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-//    glDeleteProgram(shaderProgramme);
-//    glDeleteProgram(shader_program);
+    glDeleteProgram(shaderProgramme);
     glfwTerminate();
     return 0;
 }

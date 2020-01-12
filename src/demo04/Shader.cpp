@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
+
 using namespace std;
 
 
@@ -31,14 +33,22 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath){
         vertexSSream << vertexFile.rdbuf(); // 读到的 buffer 存入 vertexSSream 中
         fragmentSSrveam << fragmentFile.rdbuf();
 
+        /*if(vertexFile.rdbuf()){
+            printf("有值");
+        }else{
+            printf("空");
+
+        }*/
+
         vertexString = vertexSSream.str(); // 获得字符串
         fragmentString = fragmentSSrveam.str();
 
         vertexSource = vertexString.c_str(); // 将字符串 转成 char*
         fragmentSource = fragmentString.c_str();
 
-//        printf(vertexSource);
-        cout <<"aaa:" << vertexSource <<endl;
+        printf(vertexSource);
+        printf(fragmentSource);
+        cout <<"aaa:" << vertexString <<endl;
 
     }catch (const char* msg){
         cout << msg <<endl;
